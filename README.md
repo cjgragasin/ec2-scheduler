@@ -20,12 +20,58 @@ EventBridge (Cron Schedule) → Lambda (Python) → EC2
 ## Cost
 Nearly $0/month - all services used are within AWS free tier limits
 
-## Setup Instructions
-1. Create IAM role with EC2 and CloudWatch permissions
-2. Deploy lambda_function.py as a Lambda function
-3. Create two EventBridge schedules:
-   - Stop schedule: triggers with `{"action": "stop"}`
-   - Start schedule: triggers with `{"action": "start"}`
+## How to Recreate This Project
+
+### Step 1 — Launch EC2 Instance
+- Go to AWS Console → EC2 → Launch Instance
+- AMI: Amazon Linux 2023
+- Instance type: t3.micro
+- Region: ap-southeast-1 (Singapore)
+
+### Step 2 — Create IAM Role
+- Go to IAM → Roles → Create Role
+- Trusted entity: AWS Service → Lambda
+- Attach policies: AmazonEC2FullAccess, CloudWatchLogsFullAccess
+- Role name: ec2-scheduler-role
+
+### Step 3 — Deploy Lambda Function
+- Go to Lambda → Create Function
+- Name: ec2-scheduler
+- Runtime: Python 3.13
+- Assign the ec2-scheduler-role
+- Upload the lambda_function.py code
+- Or deploy via CLI:
+
+aws lambda create-function 
+--function-name ec2-scheduler 
+--runtime python3.13 
+--role arn:aws:iam::YOUR_ACCOUNT_ID:role/ec2-scheduler-role 
+--handler lambda_function.lambda_handler 
+--zip-file fileb://ec2-scheduler.zip
+
+### Step 4 — Create EventBridge Schedules
+- Go to EventBridge → Scheduler → Create Schedule
+- Schedule 1 (Stop):
+  - Name: ec2-stop
+  - Cron: 0 22 * * ? * (10PM Manila time)
+  - Target: Lambda → ec2-scheduler
+  - Input: {"action": "stop"}
+- Schedule 2 (Start):
+  - Name: ec2-start
+  - Cron: 50 21 * * ? * (9:50PM Manila time)
+  - Target: Lambda → ec2-scheduler
+  - Input: {"action": "start"}
+
+### Step 5 — Test It
+Test stop
+aws lambda invoke --function-name ec2-scheduler 
+
+--payload "eyJhY3Rpb24iOiAic3RvcCJ9" response.json
+Test start
+aws lambda invoke --function-name ec2-scheduler 
+
+--payload "eyJhY3Rpb24iOiAic3RhcnQifQ==" response.json
+
 
 ## Skills Demonstrated
 - Python (boto3)
