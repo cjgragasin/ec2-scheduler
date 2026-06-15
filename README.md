@@ -18,7 +18,7 @@ The system helps reduce costs by ensuring instances only run when needed.
 ## ArchitectureChart
 
 ```mermaid
-flowchart LR
+graph TD;
     A["EventBridge Schedule<br>(Cron Job)"] --> B["Lambda Function<br>(Python boto3)"]
     B -->|Start/Stop| C[EC2 Instances]
 
@@ -29,7 +29,7 @@ flowchart LR
     end
 
     D[CloudWatch Logs] --> B
-
+```
 
 
 
