@@ -6,6 +6,29 @@ Automated AWS solution that starts and stops EC2 instances on a schedule to save
 ## Architecture
 EventBridge (Cron Schedule) → Lambda (Python) → EC2
 
+This project automates EC2 instance start and stop operations using:
+
+- **Amazon EventBridge** – triggers on a schedule (cron)
+- **AWS Lambda** – executes Python code using boto3
+- **Amazon EC2** – instances are started or stopped based on the schedule
+
+The system helps reduce costs by ensuring instances only run when needed.
+
+
+```mermaid
+flowchart LR
+    A["EventBridge Schedule<br>(Cron Job)"] --> B["Lambda Function<br>(Python boto3)"]
+    B -->|Start/Stop| C[EC2 Instances]
+
+    subgraph AWS Cloud
+        A
+        B
+        C
+    end
+
+    D[CloudWatch Logs] --> B
+
+
 ## AWS Services Used
 - AWS Lambda - runs the start/stop logic
 - Amazon EventBridge - triggers Lambda on a schedule
@@ -19,6 +42,12 @@ EventBridge (Cron Schedule) → Lambda (Python) → EC2
 
 ## Cost
 Nearly $0/month - all services used are within AWS free tier limits
+
+## 💡 Features
+- Automated EC2 start/stop
+- Serverless (no infrastructure to manage)
+- Cost optimization
+- Uses AWS native services
 
 ## How to Recreate This Project
 
