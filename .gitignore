@@ -1,0 +1,17 @@
+# Boto3 and dependencies
+boto3/
+botocore/
+urllib3/
+s3transfer/
+jmespath/
+dateutil/
+six.py
+*.dist-info/
+bin/
+
+# Zip file
+*.zip
+
+# Python cache
+__pycache__/
+*.pyc
