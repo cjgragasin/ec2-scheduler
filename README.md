@@ -15,6 +15,7 @@ This project automates EC2 instance start and stop operations using:
 The system helps reduce costs by ensuring instances only run when needed.
 
 
+
 ```mermaid
 flowchart LR
     A["EventBridge Schedule<br>(Cron Job)"] --> B["Lambda Function<br>(Python boto3)"]
@@ -27,6 +28,7 @@ flowchart LR
     end
 
     D[CloudWatch Logs] --> B
+
 
 
 ## AWS Services Used
