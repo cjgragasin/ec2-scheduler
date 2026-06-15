@@ -15,6 +15,7 @@ This project automates EC2 instance start and stop operations using:
 The system helps reduce costs by ensuring instances only run when needed.
 
 
+## ArchitectureChart
 
 ```mermaid
 flowchart LR
@@ -28,6 +29,7 @@ flowchart LR
     end
 
     D[CloudWatch Logs] --> B
+
 
 
 
